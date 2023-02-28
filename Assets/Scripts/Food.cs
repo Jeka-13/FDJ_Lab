@@ -2,6 +2,7 @@
 
 public class Food : MonoBehaviour
 {
+    public string bonusName;
     public Collider2D gridArea;
     public float x;
     public float y;
@@ -28,5 +29,4 @@ public class Food : MonoBehaviour
     {
         RandomizePosition();
     }
-
 }

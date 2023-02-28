@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(BoxCollider2D))]
 public class Snake : MonoBehaviour
@@ -9,7 +10,10 @@ public class Snake : MonoBehaviour
     public Vector2 direction = Vector2.right;
     private Vector2 input;
     public int initialSize = 4;
-    public int score = 4;
+    private int bestScore = 2;
+    private int current_score = 0;
+    public Text currScore;
+    public Text best_score;
 
     private void Start()
     {
@@ -57,11 +61,21 @@ public class Snake : MonoBehaviour
         Transform segment = Instantiate(segmentPrefab);
         segment.position = segments[segments.Count - 1].position;
         segments.Add(segment);
-        score ++;
+        this.current_score = PlayerPrefs.GetInt("apple");
+        PlayerPrefs.SetInt("apple", this.current_score + 1);
+        this.currScore.text = $"Current score: {this.current_score + 1}".ToString();
     }
 
     public void ResetState()
     {
+        this.current_score =  PlayerPrefs.GetInt("apple");
+        if (this.current_score > this.bestScore) {
+            this.bestScore = this.current_score;
+            this.best_score.text = $"Best score: {this.bestScore}".ToString();
+        }
+        PlayerPrefs.SetInt("apple", 0);
+        this.current_score = 0;
+        this.currScore.text = $"Current score: {this.current_score}".ToString();
         direction = Vector2.right;
         transform.position = Vector3.zero;
 
@@ -75,7 +89,6 @@ public class Snake : MonoBehaviour
         for (int i = 0; i < initialSize - 1; i++) {
             Grow();
         }
-        score = 4;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
