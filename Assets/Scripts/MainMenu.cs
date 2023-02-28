@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
    public void PlayGame()
    {
-        SceneManager.LoadScene("Snake");
+        SceneManager.LoadScene("Snake_mode");
    }
 
    public void ExitGame()
